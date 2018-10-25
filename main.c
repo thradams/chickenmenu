@@ -1,18 +1,17 @@
-// ConsoleApplication27.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
-#include "pch.h"
+
+
 
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 struct MenuItem
 {
-  int number;
-  int price;
-  bool bUsed;
+    int Quantity;
+    int Price;
 };
 
 #define SIZE 40
@@ -64,70 +63,72 @@ struct MenuItem Menu[SIZE] = {
 
 bool BuyOneMore(int* bestPrice, int currentCost, int remaning, int *buy, int buycount)
 {
-  bool result = false;
-  for (int i = 0; i < SIZE; i++)
-  {
-    if (Menu[i].number > remaning)
+    bool result = false;
+    for (int i = 0; i < SIZE; i++)
     {
-      break;
-    }
-    else if (Menu[i].number == remaning)
-    {
-      currentCost += Menu[i].price;
-
-      if (*bestPrice > currentCost)
-      {
-        *bestPrice = currentCost;
-        printf("*");
-
-        buy[buycount] = i;
-        printf("Total = %d [", currentCost);
-        for (int j = buycount; j >= 0; j--)
+        if (Menu[i].Quantity > remaning)
         {
-          printf(" %d", Menu[buy[j]].number);
+            break;
         }
-        printf(" ]\n");
+        else if (Menu[i].Quantity == remaning)
+        {
+            currentCost += Menu[i].Price;
 
-      }
-      else
-      {
-        //printf(" ");
-      }
+            if (*bestPrice >= currentCost)
+            {
+                *bestPrice = currentCost;
+                printf("*");
 
-      
-      result = true;
-      break;
+                buy[buycount] = i;
+                printf("Total = %d [", currentCost);
+                for (int j = buycount; j >= 0; j--)
+                {
+                    printf(" %d", Menu[buy[j]].Quantity);
+                }
+                printf(" ]\n");
+
+            }
+            else
+            {
+                //printf(" ");
+            }
+
+
+            result = true;
+            break;
+        }
+        else
+        {
+            buy[buycount] = i;
+            BuyOneMore(bestPrice, currentCost + Menu[i].Price, remaning - Menu[i].Quantity, buy, buycount + 1);
+        }
+
     }
-    else
-    {
-      buy[buycount] = i;
-      BuyOneMore(bestPrice, currentCost + Menu[i].price, remaning - Menu[i].number, buy, buycount + 1);
-    }
-
-  }
-  return result;
+    return result;
 }
 
 bool Buy(int N)
 {
-  int buy[100] = { 0 };
-  int buycount = 0;
-  int remaning = N;
-  int bestPrice = INT_MAX;
-  int currentCost = 0;
-  return BuyOneMore(&bestPrice, currentCost, remaning, buy, buycount);
+    int *buy = (int*)malloc(sizeof(int) * N / 4);
+    int buycount = 0;
+    int remaning = N;
+    int bestPrice = INT_MAX;
+    int currentCost = 0;
+    bool b =  BuyOneMore(&bestPrice, currentCost, remaning, buy, buycount);
+    free(buy);
+    return b;
 }
 
 int main()
 {
-  int N = 0;
-  printf("How many chickens do you want to buy? ");
-  scanf("%d", &N);
+    int N = 0;
+    printf("How many chickens do you want to buy? ");
+    scanf("%d", &N);
 
-  printf("you can buy.. (* best prices see botton to up)\n\n");
+    printf("you can buy.. (* best prices see botton to up)\n\n");
 
-  if (!Buy(N))
-  {
-    printf("no match");
-  }
+    if (!Buy(N))
+    {
+        printf("no match");
+    }
 }
