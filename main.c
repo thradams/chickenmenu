@@ -1,7 +1,7 @@
-/*
-https://twitter.com/seanposting/status/1054136447362629637
-*/
+// ConsoleApplication27.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
 
+#include "pch.h"
 
 #include <stdbool.h>
 #include <string.h>
@@ -79,19 +79,22 @@ bool BuyOneMore(int* bestPrice, int currentCost, int remaning, int *buy, int buy
       {
         *bestPrice = currentCost;
         printf("*");
+
+        buy[buycount] = i;
+        printf("Total = %d [", currentCost);
+        for (int j = buycount; j >= 0; j--)
+        {
+          printf(" %d", Menu[buy[j]].number);
+        }
+        printf(" ]\n");
+
       }
       else
       {
-        printf(" ");
+        //printf(" ");
       }
 
-      buy[buycount] = i;
-      printf("Total = %d [", currentCost);
-      for (int j = buycount; j >= 0; j--)
-      {
-        printf(" %d", Menu[buy[j]].number);
-      }
-      printf(" ]\n");
+      
       result = true;
       break;
     }
