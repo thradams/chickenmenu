@@ -1,5 +1,7 @@
 /*
+https://twitter.com/seanposting/status/1054136447362629637
 */
+
 
 #include <stdbool.h>
 #include <string.h>
