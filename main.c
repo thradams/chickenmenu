@@ -1,7 +1,10 @@
-
+/*
+*/
 
 #include <stdbool.h>
 #include <string.h>
+#include <limits.h>
+#include <stdio.h>
 
 struct MenuItem
 {
@@ -112,9 +115,14 @@ bool Buy(int N)
 
 int main()
 {
-  if (!Buy(25))
+  int N = 0;
+  printf("How many chickens do you want to buy? ");
+  scanf("%d", &N);
+
+  printf("you can buy.. (* best prices see botton to up)\n\n");
+
+  if (!Buy(N))
   {
     printf("no match");
   }
 }
-
